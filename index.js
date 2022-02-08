@@ -44,15 +44,14 @@ exports.vehicle = functions.https.onRequest(async (req, res) => {
 
     console.log("vehicle initialized");
     //get vehicle info
-    const attributes = await vehicle.battery();
-    res.send(attributes);
-    console.log(attributes);
-});
+    const attributes = await vehicle.attributes();
+    const battery = await vehicle.battery();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+    const vehicle_info = {
+        ...attributes,
+        ...battery
+    };
+
+    res.send(vehicle_info);
+    console.log(vehicle_info);
+});
